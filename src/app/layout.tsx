@@ -1,22 +1,15 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
+import { bank } from '@/config/bank'
 
-const inter = Inter({ subsets: ['latin'] })
+export const metadata: Metadata = { ...bank }
 
-export const metadata: Metadata = {
-	title: 'Habilitación de Tarjeta de Crédito',
-	description: '',
-}
+const fonts = bank?.fonts?.map((font) => ('variable' in font ? font.variable : font.className)).join(' ')
 
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang='en'>
-			<body className={`${inter.className} antialiased`}>{children}</body>
+			<body className={`${fonts} antialiased`}>{children}</body>
 		</html>
 	)
 }
