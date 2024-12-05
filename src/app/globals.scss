@@ -48,7 +48,6 @@ body {
 @layer base {
   * {
     @apply border-border;
-    @apply text-foreground;
   }
 
   body {
