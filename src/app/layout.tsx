@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import './globals.css'
+
+import './globals.scss'
 import { bank } from '@/config/bank'
 
 export const metadata: Metadata = { ...bank }
