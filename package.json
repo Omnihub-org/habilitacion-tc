@@ -9,6 +9,8 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.9.1",
+		"@radix-ui/react-label": "^2.1.0",
 		"@radix-ui/react-scroll-area": "^1.2.1",
 		"@radix-ui/react-slot": "^1.1.0",
 		"class-variance-authority": "^0.7.1",
@@ -17,6 +19,7 @@
 		"react": "19.0.0-rc-66855b96-20241106",
 		"react-credit-cards": "^0.8.3",
 		"react-dom": "19.0.0-rc-66855b96-20241106",
+		"react-hook-form": "^7.53.2",
 		"sass": "^1.82.0",
 		"tailwind-merge": "^2.5.5",
 		"zod": "^3.23.8"
