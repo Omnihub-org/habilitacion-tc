@@ -4,7 +4,7 @@ import { ImageProps } from 'next/image'
 import localFont from 'next/font/local'
 import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-primary' })
 
 type Img = Pick<ImageProps, 'src' | 'height' | 'width'> & Partial<ImageProps>
 type Font = ReturnType<typeof localFont> | ReturnType<typeof Inter>
