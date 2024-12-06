@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import submitCardData from '@/api/actions'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -30,10 +31,10 @@ export default function CardForm() {
 
 	const setErrorMsg = (msg: string) => form.setError('cardNumber', { message: `Tarjeta ${msg}. Por favor, verifique los datos` })
 
-	const onSubmit = (values: z.infer<typeof cardSchema>) => {
+	const onSubmit = async (values: z.infer<typeof cardSchema>) => {
 		if (cardMetadata.issuer === 'unknown') return setErrorMsg('no reconocida')
 		if (!cardMetadata.isValid) return setErrorMsg('inválida')
-		console.log('Card data:', values)
+		await submitCardData(values)
 	}
 
 	return (
