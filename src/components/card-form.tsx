@@ -1,26 +1,44 @@
 'use client'
 
-import { z } from 'zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import CreditCard from '@/components/credit-card'
+import CreditCard, { CreditCardMetadata, emptyCardMetadata } from '@/components/credit-card'
+import Spinner from '@/components/spinner'
 
-const formSchema = z.object({
-	number: z.string().regex(/^[\d\s-]{14,16}$/, { message: 'El número debe tener entre 14 y 16 dígitos' }),
-})
+const MIN_CARD_LENGTH = 13
+
+const createCardValidationSchema = (maxLength: number) =>
+	z.object({
+		cardNumber: z
+			.string()
+			.regex(/^\d+$/, { message: 'Solo se permiten números' })
+			.refine((val) => val.length >= MIN_CARD_LENGTH && val.length <= maxLength, {
+				message: `El número debe tener entre ${MIN_CARD_LENGTH} y ${maxLength} dígitos`,
+			}),
+	})
 
 export default function CardForm() {
-	const form = useForm<z.infer<typeof formSchema>>({ resolver: zodResolver(formSchema), defaultValues: { number: '' } })
+	const [cardMetadata, setCardMetadata] = useState<CreditCardMetadata>(emptyCardMetadata)
+	const cardSchema = createCardValidationSchema(cardMetadata.maxLength)
+	const form = useForm<z.infer<typeof cardSchema>>({ resolver: zodResolver(cardSchema), defaultValues: { cardNumber: '' } })
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => console.log(values)
+	const setErrorMsg = (msg: string) => form.setError('cardNumber', { message: `Tarjeta ${msg}. Por favor, verifique los datos` })
+
+	const onSubmit = (values: z.infer<typeof cardSchema>) => {
+		if (cardMetadata.issuer === 'unknown') return setErrorMsg('no reconocida')
+		if (!cardMetadata.isValid) return setErrorMsg('inválida')
+		console.log('Card data:', values)
+	}
 
 	return (
 		<div className='flex flex-col justify-center items-center w-full'>
-			<CreditCard number={form.watch('number')} />
+			<CreditCard cardNumber={form.watch('cardNumber')} setCardMetadata={setCardMetadata} />
 
 			<Form {...form}>
 				<form
@@ -30,20 +48,27 @@ export default function CardForm() {
 				>
 					<FormField
 						control={form.control}
-						name='number'
+						name='cardNumber'
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Número de Tarjeta</FormLabel>
 								<FormControl>
-									<Input placeholder='4321 4321 4321 4321' maxLength={16} {...field} />
+									<Input
+										{...field}
+										type='tel'
+										placeholder='4321 4321 4321 4321'
+										pattern='\d*'
+										maxLength={cardMetadata.maxLength}
+										onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
 
-					<Button type='submit' className='w-full'>
-						Confirmar
+					<Button type='submit' className='w-full' disabled={form.formState.isSubmitting || form.formState.isLoading}>
+						{form.formState.isSubmitting || form.formState.isLoading ? <Spinner /> : 'Continuar'}
 					</Button>
 				</form>
 			</Form>
