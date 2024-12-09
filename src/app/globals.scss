@@ -56,3 +56,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .btn {
+    @apply mt-8 w-full rounded-xl;
+  }
+}

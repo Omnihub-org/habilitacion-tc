@@ -68,8 +68,8 @@ export default function CardForm() {
 						)}
 					/>
 
-					<Button type='submit' className='w-full' disabled={form.formState.isSubmitting || form.formState.isLoading}>
-						{form.formState.isSubmitting || form.formState.isLoading ? <Spinner /> : 'Continuar'}
+					<Button type='submit' className='btn' disabled={form.formState.isSubmitting || form.formState.isLoading}>
+						{form.formState.isSubmitting || form.formState.isLoading ? <Spinner /> : 'Habilitar'}
 					</Button>
 				</form>
 			</Form>
