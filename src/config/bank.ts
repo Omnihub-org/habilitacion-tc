@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { ImageProps } from 'next/image'
 import localFont from 'next/font/local'
 import { Inter } from 'next/font/google'
