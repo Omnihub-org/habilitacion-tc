@@ -1,5 +1,9 @@
+import Link from 'next/link'
+
+import { Neocheck } from '@/api/services/neocheck'
+import { neocheckCustomization } from '@/lib/const'
+import { buttonVariants } from '@/components/ui/button'
 import AppLayout from '@/components/app-layout'
-import { Button } from '@/components/ui/button'
 
 const messages = [
 	'Busca un lugar bien iluminado, preferentemente con luz natural y frontal.',
@@ -7,7 +11,15 @@ const messages = [
 	'Sigue las instrucciones en pantalla para completar la validación.',
 ]
 
-export default function BiometryPage() {
+export default async function BiometryPage() {
+	const neocheck = new Neocheck({
+		username: process.env.NEXT_PUBLIC_NEOCHECK_USER ?? '',
+		password: process.env.NEXT_PUBLIC_NEOCHECK_PASS ?? '',
+		customization: neocheckCustomization,
+	})
+
+	const { url } = await neocheck.getBiometricsUrl()
+
 	return (
 		<AppLayout>
 			<h1>Validación de identidad</h1>
@@ -20,7 +32,9 @@ export default function BiometryPage() {
 				))}
 			</ol>
 
-			<Button className='uppercase btn'>Siguiente</Button>
+			<Link className={buttonVariants({ className: 'btn uppercase' })} href={url}>
+				Siguiente
+			</Link>
 		</AppLayout>
 	)
 }
