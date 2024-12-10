@@ -20,6 +20,6 @@ export const bank: Bank = {
 	name: 'Banco Provincia',
 	title: 'Habilitación de Tarjeta de Crédito',
 	logo: { src: '/images/logo.png', height: 50, width: 159 },
-	bg: { src: '/images/bg.jpg', height: 700, width: 1600 },
+	bg: { src: '/images/bg.png', height: 691, width: 1193 },
 	fonts: [inter],
 }
