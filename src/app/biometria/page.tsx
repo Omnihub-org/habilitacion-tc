@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { Neocheck } from '@/api/services/biometry'
+import { Neocheck } from '@/app/api/services/biometry'
 import { neocheckCustomization as customization } from '@/lib/const'
 import { buttonVariants } from '@/components/ui/button'
 
