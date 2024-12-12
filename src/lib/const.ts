@@ -1,3 +1,5 @@
+export const LEAD_ID_COOKIE = 'lead-id' as const
+
 export const neocheckCustomization = {
 	backgroundColor: '#fff',
 	mainColor: '#000',
