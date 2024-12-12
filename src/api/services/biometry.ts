@@ -2,7 +2,7 @@ import 'server-only'
 
 import { bank } from '@/config/bank'
 
-export enum BiometricsStatus {
+export enum BiometryStatus {
 	PENDING = 'PENDING',
 	COMPLETED = 'COMPLETED',
 	FAILED = 'FAILED',
@@ -62,7 +62,7 @@ export class Neocheck {
 		return this.accessToken
 	}
 
-	async getBiometricsStatus({ verificationId }: { verificationId: string }) {
+	async getBiometryStatus({ verificationId }: { verificationId: string }) {
 		const accessToken = await this.getAccessToken()
 
 		const response = await fetch(`${this.getApiUrl()}/v1/VideoIdentifications/${verificationId}`, {
@@ -72,17 +72,17 @@ export class Neocheck {
 		const data = await response.json()
 
 		const statusMap = {
-			3: BiometricsStatus.PENDING,
-			4: BiometricsStatus.COMPLETED,
+			3: BiometryStatus.PENDING,
+			4: BiometryStatus.COMPLETED,
 		}
 
-		return statusMap[data.status as keyof typeof statusMap] ?? BiometricsStatus.FAILED
+		return statusMap[data.status as keyof typeof statusMap] ?? BiometryStatus.FAILED
 	}
 
-	async getBiometricsUrl() {
+	async getBiometryUrl() {
 		const accessToken = await this.getAccessToken()
 
-		const response = await fetch(`${this.getApiUrl()}/v1/VideoIdentifications/unattended/link`, {
+		const response = await fetch(`${this.getApiUrl()}/v1/VideoIdentifications/unattended/link?externalIdentifier=${1}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export class Neocheck {
 
 		const url = await response.text()
 
-		if (!url) throw new Error('Failed to get biometrics url')
+		if (!url) throw new Error('Failed to get biometry url')
 
 		return { url, verificationId: url.split('/').pop() ?? '' }
 	}
