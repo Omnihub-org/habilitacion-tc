@@ -1,12 +1,8 @@
 import 'server-only'
 
-import { bank } from '@/config/bank'
+import { BiometryStatus } from '@prisma/client'
 
-export enum BiometryStatus {
-	PENDING = 'PENDING',
-	COMPLETED = 'COMPLETED',
-	FAILED = 'FAILED',
-}
+import { bank } from '@/config/bank'
 
 type NeocheckConfig = {
 	username: string

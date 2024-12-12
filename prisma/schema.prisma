@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider                 = "zod-prisma-types"
+  output                   = "../src/generated/zod"
+  createInputTypes         = false
+  addIncludeType           = false
+  addSelectType            = false
+  writeNullishInModelTypes = true
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BiometryStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum Gender {
+	M
+	F
+}
+
+model Lead {
+  id         String     @id @default(uuid())
+  firstName  String?
+  lastName   String?
+  nationalId String?
+  gender     Gender?
+  email      String?
+  phone      String?
+
+	cardNumber String?
+
+  biometryVerificationId String?
+  biometryStatus BiometryStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
