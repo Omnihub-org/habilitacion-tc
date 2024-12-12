@@ -7,7 +7,7 @@ export default function NotFound() {
 	return (
 		<AppLayout>
 			<h1>404 | Página no encontrada</h1>
-			<h3>No pudimos encontrar la página que buscas</h3>
+			<h3 className='text-center'>No pudimos encontrar la página que buscas</h3>
 			<Link className={buttonVariants({ className: 'btn uppercase' })} href='/'>
 				Volver al inicio
 			</Link>

@@ -11,9 +11,9 @@ export default async function BiometryLayout({ children }: { children: React.Rea
 		<AppLayout>
 			<h1>Validación de identidad</h1>
 
-			<h3 className='text-bold text-pretty'>A continuación vamos a verificar tu identidad, para eso:</h3>
+			<h3 className='text-bold'>A continuación vamos a verificar tu identidad, para eso:</h3>
 
-			<ol className='flex flex-col gap-4 list-decimal ml-[1.125rem] text-pretty'>
+			<ol className='flex flex-col gap-4 list-decimal ml-[1.125rem]'>
 				{messages.map((message, i) => (
 					<li key={i}>{message}</li>
 				))}
