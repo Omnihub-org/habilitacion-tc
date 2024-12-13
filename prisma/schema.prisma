@@ -36,7 +36,9 @@ model Lead {
   email      String?
   phone      String?
 
-	cardNumber String?
+	cardNumber String @unique
+
+	isEnabled Boolean @default(false)
 
   biometryVerificationId String?
   biometryStatus BiometryStatus @default(PENDING)
