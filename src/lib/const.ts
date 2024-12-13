@@ -1,5 +1,8 @@
 export const LEAD_ID_COOKIE = 'lead-id' as const
 
+export const MIN_CARD_LENGTH = 13
+export const MAX_CARD_LENGTH = 19
+
 export const neocheckCustomization = {
 	backgroundColor: '#fff',
 	mainColor: '#000',

@@ -1,11 +1,9 @@
 'use client'
 
-import { Dispatch, SetStateAction } from 'react'
-import Cards from 'react-credit-cards'
+import { Dispatch, SetStateAction, useCallback } from 'react'
+import Cards, { type CallbackArgument as T } from 'react-credit-cards'
 
-export type CreditCardMetadata = {
-	issuer: string
-	maxLength: number
+export type CreditCardMetadata = T & {
 	isValid: boolean
 }
 
@@ -19,5 +17,8 @@ const emptyCardFields = { name: '', expiry: '', cvc: '', placeholders: { name: '
 
 export default function CreditCard(creditCardProps: CreditCardProps) {
 	const { cardNumber, setCardMetadata } = creditCardProps
-	return <Cards number={cardNumber} callback={(type, isValid) => setCardMetadata({ ...type, isValid })} {...emptyCardFields} />
+
+	const handleCallback = useCallback((type: T, isValid: boolean) => setCardMetadata({ ...type, isValid }), [setCardMetadata])
+
+	return <Cards number={cardNumber} callback={handleCallback} {...emptyCardFields} />
 }
