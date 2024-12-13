@@ -1,4 +1,4 @@
-$rccs-shadow: 0 5px 10px rgba(#000, 0.5);
-$rccs-expiry-font-size: 0px;
-
-@import 'react-credit-cards/lib/styles.scss';
+@use 'react-credit-cards/lib/styles.scss' with (
+  $rccs-shadow: 0 5px 10px rgba(#000, 0.5),
+  $rccs-expiry-font-size: 0px,
+);
