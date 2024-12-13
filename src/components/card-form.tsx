@@ -4,9 +4,10 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useServerAction } from 'zsa-react'
 
 import { baseCardSchema } from '@/schemas/card'
-import submitCardData from '@/app/api/actions/card'
+import { registerCardLead } from '@/actions/card'
 import { MIN_CARD_LENGTH } from '@/lib/const'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
@@ -27,17 +28,19 @@ export default function CardForm() {
 		[cardMetadata.maxLength],
 	)
 	const form = useForm<z.infer<typeof baseCardSchema>>({ resolver: zodResolver(baseCardSchema), defaultValues: { cardNumber: '' } })
+	const { execute } = useServerAction(registerCardLead)
 
-	const setErrorMsg = (msg: string) => form.setError('cardNumber', { message: `Tarjeta ${msg}. Por favor, verifique los datos` })
+	const setError = (message: string) => form.setError('cardNumber', { message })
 
 	const onSubmit = async (values: z.infer<typeof baseCardSchema>) => {
 		const result = cardSchema.safeParse(values)
 
-		if (!result.success) return form.setError('cardNumber', { message: result.error.errors[0].message })
-		if (cardMetadata.issuer === 'unknown') return setErrorMsg('no reconocida')
-		if (!cardMetadata.isValid) return setErrorMsg('inválida')
+		if (!result.success) return setError(result.error.errors[0].message)
+		if (cardMetadata.issuer === 'unknown') return setError('Tarjeta no reconocida. Por favor, verifique los datos')
+		if (!cardMetadata.isValid) return setError('Tarjeta inválida. Por favor, verifique los datos')
 
-		await submitCardData(values)
+		const [, error] = await execute(values)
+		if (error) return setError(error.message)
 	}
 
 	return (

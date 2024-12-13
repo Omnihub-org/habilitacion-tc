@@ -1,4 +1,4 @@
-export const LEAD_ID_COOKIE = 'lead-id' as const
+export const LEAD_ID_COOKIE = '_ohb_reg_session_id' as const
 
 export const MIN_CARD_LENGTH = 13
 export const MAX_CARD_LENGTH = 19
