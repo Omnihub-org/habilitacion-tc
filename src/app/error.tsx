@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 
-import AppLayout from '@/components/app-layout'
 import { buttonVariants } from '@/components/ui/button'
+import AppLayout from '@/components/app-layout'
 
 export default function Error() {
 	return (
